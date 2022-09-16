@@ -3,7 +3,6 @@ from flask import Flask, jsonify, request, render_template
 from flask_restful import Api, Resource
 from http import HTTPStatus
 import psycopg2
-from flask_migrate import Migrate
 import os
 
 
@@ -32,17 +31,14 @@ else:
 app = Flask(__name__)
 app.config.from_object(config_str)
 api = Api(app)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://root:1234@localhost/Moviesdatabase'
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 
 class Movie(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  # this is the primary key
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     genre = db.Column(db.String(80), nullable=False)
-    IMDb = db.Column(db.Integer, nullable=True)
 
     @staticmethod
     def addMovie(title, year, genre):
